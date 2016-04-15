@@ -20,7 +20,7 @@ int main(int argc, char * argv[]) {
         std::cout << "velocity" << std::endl;
         return 0;
     }
-    
+     
     double energy = ap["energy"];
     double velocity = ap["velocity"];
     
