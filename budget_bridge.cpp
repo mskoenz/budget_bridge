@@ -15,6 +15,11 @@
 int main(int argc, char * argv[]) {
     fsc::ArgParser ap(argc, argv);
     
+    if(ap.is_set("v")) {
+        std::cout << "0.1" << std::endl;
+        return 0;
+    }
+    
     if(ap.is_set("param") or ap.is_set("p")) {
         std::cout << "energy" << std::endl;
         std::cout << "velocity" << std::endl;
