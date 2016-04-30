@@ -6,9 +6,9 @@
 # File:    to_sql.py
 
 import os
-from addon import core, zurkon
+from addon import core
 
-def setup_sql(tbl):
+def sql_setup(tbl):
     return """ALTER TABLE {0} ADD num INT;
            """.format(tbl)
 
