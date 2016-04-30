@@ -8,23 +8,32 @@
 import os
 from addon import core, zurkon
 
-def to_sql(db, tbl, path, m5c):
-    if not db.has_table(tbl):
-        db.execute("CREATE TABLE budget_bridge (m5c TEXT not null, num INT, PRIMARY KEY(m5c));")
+def setup_sql(tbl):
+    return """ALTER TABLE {0} ADD num INT;
+              ALTER TABLE {0} ADD num2 INT;
+           """.format(tbl)
+
+def to_dict(path):
     res = dict()
-    res["m5c"] = m5c
     with open(os.path.join(path, "res.txt"), "r") as f:
         res["num"] = sum(core.to_number(f.readlines()))
-    
-    db.add_dict(tbl, res)
-
-zurkon.SQLsubscribe["budget_bridge/budget_bridge"]["default"] = to_sql
+        res["num2"] = res["num"]
+    return res
 
 def main():
     path = "."
-    db = zurkon.SQLiteSupport("foo.db")
+    core.rm_file("zoo.db")
+    db = zurkon.SQLiteSupport("zoo.db")
+    tbl = "budget_bridge"
     
-    to_sql(db, "budget_bridge", path, "foobar")
+    if not db.has_table(tbl):
+        db.execute("CREATE TABLE {} (m5c TEXT UNIQUE NOT NULL, PRIMARY KEY (m5c))".format(tbl))
+        cmd = setup_sql(tbl)
+        db.executescript(cmd)
+    
+    res = to_dict("./")
+    res["m5c"] = "12345"
+    db.add_dict(tbl, res)
     
     db.commit()
     
