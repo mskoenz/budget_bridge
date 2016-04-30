@@ -10,14 +10,12 @@ from addon import core, zurkon
 
 def setup_sql(tbl):
     return """ALTER TABLE {0} ADD num INT;
-              ALTER TABLE {0} ADD num2 INT;
            """.format(tbl)
 
 def to_dict(path):
     res = dict()
     with open(os.path.join(path, "res.txt"), "r") as f:
         res["num"] = sum(core.to_number(f.readlines()))
-        res["num2"] = res["num"]
     return res
 
 def main():
