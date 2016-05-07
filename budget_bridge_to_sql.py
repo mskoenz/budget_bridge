@@ -12,7 +12,7 @@ def sql_setup(tbl):
     return """ALTER TABLE {0} ADD num INT;
            """.format(tbl)
 
-def postprocess(path):
+def sql_to_dict(path):
     res = dict()
     with open(os.path.join(path, "res.txt"), "r") as f:
         res["num"] = sum(core.to_number(f.readlines()))
